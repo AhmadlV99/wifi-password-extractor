@@ -1,8 +1,5 @@
 name: Build APK
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,14 +8,23 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
-        distribution: 'temurin'
+        java-version: 17
+        distribution: temurin
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+    - name: Create gradle wrapper
+      run: |
+        mkdir -p gradle/wrapper
+        echo "distributionBase=GRADLE_USER_HOME" > gradle/wrapper/gradle-wrapper.properties
+        echo "distributionPath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        echo "distributionUrl=https\\://services.gradle.org/distributions/gradle-8.0-bin.zip" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStoreBase=GRADLE_USER_HOME" >> gradle/wrapper/gradle-wrapper.properties
+        echo "zipStorePath=wrapper/dists" >> gradle/wrapper/gradle-wrapper.properties
+        wget -O gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/v8.0.0/gradle/wrapper/gradle-wrapper.jar
     - name: Build APK
       run: |
         chmod +x gradlew
-        ./gradlew assembleRelease
+        ./gradlew assembleRelease --no-daemon
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:

